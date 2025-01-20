@@ -893,7 +893,7 @@ static const init_fnc_t init_sequence_f[] = {
 #if defined(CONFIG_CONSOLE_RECORD_INIT_F)
 	console_record_init,
 #endif
-	INITCALL_EVENT(EVT_FSP_INIT_F),
+//INITCALL_EVENT(EVT_FSP_INIT_F),
 	arch_cpu_init,		/* basic arch cpu dependent setup */
 	mach_cpu_init,		/* SoC/machine dependent CPU setup */
 	initf_dm,

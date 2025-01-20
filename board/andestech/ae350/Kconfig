@@ -29,7 +29,7 @@ config SPL_OPENSBI_LOAD_ADDR
 
 config SYS_FDT_BASE
 	hex
-	default 0x800f0000 if OF_SEPARATE
+	default 0x00200000 if OF_SEPARATE
 
 config BOARD_SPECIFIC_OPTIONS # dummy
 	def_bool y

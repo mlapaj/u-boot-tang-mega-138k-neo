@@ -39,6 +39,8 @@ secondary_harts_relocation_error:
 .section .text
 .globl _start
 _start:
+    // lapaj
+    //j 0
 #if CONFIG_IS_ENABLED(RISCV_MMODE)
 	csrr	a0, CSR_MHARTID
 #endif
@@ -143,7 +145,7 @@ call_board_init_f_0:
 	/* Configure proprietary settings and customized CSRs of harts */
 call_harts_early_init:
 	jal	harts_early_init
-
+#if 0 // LAPAJ
 #if !CONFIG_IS_ENABLED(XIP)
 	/*
 	 * Pick hart to initialize global data and run U-Boot. The other harts
@@ -152,6 +154,7 @@ call_harts_early_init:
 	la	t0, hart_lottery
 	li	t1, 1
 	amoswap.w s2, t1, 0(t0)
+#endif // LAPAJ
 	bnez	s2, wait_for_gd_init
 #else
 	/*
@@ -176,8 +179,10 @@ call_harts_early_init:
 
 #if !CONFIG_IS_ENABLED(XIP)
 #ifdef CONFIG_AVAILABLE_HARTS
+#if 0 // LAPAJ
 	la	t0, available_harts_lock
 	amoswap.w.rl zero, zero, 0(t0)
+#endif // LAPAJ
 #endif
 
 wait_for_gd_init:
@@ -187,6 +192,7 @@ wait_for_gd_init:
 	 * harts' global data pointers gets set here.
 	 */
 	mv	gp, s0
+#if 0 // LAPAJ
 #ifdef CONFIG_AVAILABLE_HARTS
 	la	t0, available_harts_lock
 	li	t1, 1
@@ -202,12 +208,15 @@ wait_for_gd_init:
 
 	amoswap.w.rl zero, zero, 0(t0)
 #endif
+#endif
 
 	/*
 	 * Continue on hart lottery winner, others branch to
 	 * secondary_hart_loop.
 	 */
+#if 0 // LAPAJ
 	bnez	s2, secondary_hart_loop
+#endif // LAPAJ
 #endif
 
 #ifdef CONFIG_DEBUG_UART

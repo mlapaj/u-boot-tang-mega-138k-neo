@@ -19,6 +19,7 @@
 	chosen {
 		bootargs = "console=ttyS0,9600n8 debug loglevel=7";
 		stdout-path = "uart0:9600n8";
+        tick-timer = &timer_riscv;
 	};
 
 	cpus {
@@ -63,7 +64,12 @@
 	memory@0 {
 		device_type = "memory";
 		reg = <0x00000000 0x40000000>;
-	};
+    };
+
+    timer_riscv: timer {
+        compatible = "riscv,timer";
+        interrupts-extended = <&CPU0_intc 5>;
+    };
 
 	soc {
 		#address-cells = <1>;
@@ -96,11 +102,12 @@
 		};
 	};
 
-	spiclk: virt_100mhz {
-		#clock-cells = <0>;
-		compatible = "fixed-clock";
-		clock-frequency = <100000000>;
-	};
+    spiclk: virt_100mhz {
+        #clock-cells = <0>;
+        compatible = "fixed-clock";
+        clock-frequency = <100000000>;
+    };
+
 
 	timer0: timer@f0400000 {
 		compatible = "andestech,atcpit100";
